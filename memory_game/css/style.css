@@ -4,7 +4,7 @@
 	float: left;
 }
 
-#container .image {
+#container .box {
 	width: 24.8%;
 	float: left;
 	margin: 0 0.1%;
@@ -14,16 +14,16 @@
 	outline: 0.1px solid #000;
 }
 
-#container .image.opened {
+#container .box.opened {
 	opacity: 1;
 	cursor: default;
 }
 
-#container .image:hover {
+#container .box:hover {
 	opacity: 1;
 }
 
-#container .image img {
+#container .box img {
 	width: 100%;
 	float: left;
 }
