@@ -1,89 +1,70 @@
 const $document = $(document);
 
-function image_click () {
-	console.log ("asd");
-	return 0;
+function image_click (array_fields, field) {
+	// Load image
+	let id = array_fields[Number(field.id)];
+	field.append(`<img src="images/back/10.jpeg" />`);
+	// field.remove($("img"));
+
+	return array_fields[Number(field.id) - 1];
 }
 
 function initialize_field () {
 	let random = 0;
-	// Arrays to keep track of all the hidden images
-	let array_first_image = [0, 0, 0, 0, 0, 0, 0, 0];
-	let array_second_image = [0, 0, 0, 0, 0, 0, 0, 0];
-	let exists = false;
-	let image_index = 0;
+	// Array to keep track of all the hidden images
+	let array_fields = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	let exists = 0;
+	let field_index = 0;
 	
-	// Run until we populate 8 fields with our images
-	while (image_index < 8) {
-		// generate a random number for the place on the board
-		random = Number(Math.floor(Math.random() * 16 + 1));
+	// Run until we populate all the fields with our images
+	while (field_index < 16) {
+		// generate a random number for the image ID
+		random = Number(Math.floor(Math.random() * 8 + 1));
 
-		// Check whether the field already has an image
-		for (let j = 0; j < array_first_image.length; ++j) {
-			if (array_first_image[j] == random) {
-				exists = true;
-				continue;
+		// Check whether the image is already in the field array
+		for (let j = 0; j < array_fields.length; ++j) {
+			if (array_fields[j] == random) {
+				++exists;
 			}
 		}
 
 		// If the field does not have an image in it populate the array
-		if (!exists) {
-			array_first_image[image_index] = random;
-			++image_index;
+		if (exists < 2) {
+			array_fields[field_index] = random;
+			++field_index;
 		}
-		exists = false;
+		exists = 0;
 	}
 
-	image_index = 0;
-	// Run until we populate 8 fields with our images
-	while (image_index < 8) {
-		// generate a random number for the place on the board
-		random = Number(Math.floor(Math.random() * 16 + 1));
-
-		// Check whether the field already has an image
-		for (let j = 0; j < array_first_image.length; ++j) {
-			if (array_first_image[j] == random) {
-				exists = true;
-				continue;
-			}
-		}
-
-		// Check whether the field already has an image
-		for (let j = 0; j < array_second_image.length; ++j) {
-			if (array_second_image[j] == random) {
-				exists = true;
-				continue;
-			}
-		}
-
-		// If the field does not have an image in it populate the array
-		if (!exists) {
-			array_second_image[image_index] = random;
-			++image_index;
-		}
-		exists = false;
-	}
-
-	console.log (array_first_image);
-	console.log (array_second_image);
-
-	// Load the images on the field
-	for (let i = 0 ; i < 8; ++i) {
-		const sub_field = $("#" + array_first_image[i]);
-		sub_field.append(`<img alt="${array_first_image[i]}`)
-	}
-
-	//
-		// const sub_field = $('#' + i);
-		// console.log (i + " " + random);
-		// sub_field.append(`<img alt="${random}" src="images/pairs/${random}.jpg" id="${random}" class="${random.charAt(0)}">`);
-		// const sub_field_img = sub_field.find('#' + id);
-		// sub_field_img.addClass('hidden NSolved');
+	return array_fields;
 }
 
 function main () {
-	initialize_field();
-	$('.image').click(image_click);
+	let array_fields;
+
+	array_fields = initialize_field();
+
+	let first_image = 0;
+	let second_image = 0;
+
+	$('.image').click(function () {
+		if (first_image != 0) {
+
+		}
+
+		if (first_image == 0) {
+			first_image = image_click (array_fields, this);
+		} else {
+			second_image = image_click (array_fields, this);
+			if (first_image != second_image) {
+				// Delay 1 sec
+				// Unload images
+				first_image = 0;
+				second_image = 0;
+			}
+		}
+
+	});
 }
 
 $document.ready(main);
